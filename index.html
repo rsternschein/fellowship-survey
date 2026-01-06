@@ -6,158 +6,107 @@
     <title>PCCM Fellowship Evaluation</title>
     <style>
         :root {
-            --bwh-blue: #003e7e;
-            --mgh-blue: #007398;
-            --bidmc-red: #c41230;
-            --va-green: #2e4d3b;
-            --gray-bg: #e9ecef;
+            --bwh-blue: #003e7e; --mgh-blue: #007398; --bidmc-red: #c41230; --va-green: #2e4d3b; --gray-bg: #e9ecef;
         }
         body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 1350px; margin: 0 auto; padding: 40px 20px; background-color: var(--gray-bg); }
         .section-card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 30px; display: none; }
         .active-section { display: block; }
         h1 { color: var(--bwh-blue); text-align: center; margin-bottom: 20px; text-transform: uppercase; }
         h2 { border-bottom: 2px solid #ddd; padding-bottom: 10px; color: var(--bwh-blue); }
-        h3 { margin-top: 25px; font-size: 1.1em; color: #444; }
-        .table-wrapper { max-height: 600px; overflow-y: auto; border: 1px solid #dee2e6; margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; background: white; table-layout: fixed; margin-bottom: 20px;}
-        thead th { background: #444; color: white; padding: 15px 10px; font-size: 0.85em; text-align: center; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 2px rgba(0,0,0,0.1); }
+        .table-wrapper { max-height: 500px; overflow-y: auto; border: 1px solid #dee2e6; margin-top: 15px; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; background: white; table-layout: fixed; }
+        thead th { background: #444; color: white; padding: 12px; font-size: 0.85em; position: sticky; top: 0; z-index: 10; }
         td { border: 1px solid #dee2e6; padding: 10px; vertical-align: middle; }
-        .col-name { width: 350px; font-weight: bold; text-align: left; background: #fdfdfd; font-size: 0.9em; }
+        .col-name { width: 300px; font-weight: bold; background: #f9f9f9; }
         .center-cell { text-align: center; }
         .row-disabled { background-color: #f2f2f2 !important; color: #aaa; }
-        .row-disabled textarea { background-color: #e9ecef; border-color: #ddd; pointer-events: none; opacity: 0.5; }
+        .row-disabled textarea { opacity: 0.3; pointer-events: none; }
         .hospital-block { margin-bottom: 30px; padding: 20px; border-radius: 8px; border-left: 8px solid #ccc; background: #fff; }
-        .bwh { border-left-color: var(--bwh-blue); }
-        .mgh { border-left-color: var(--mgh-blue); }
-        .bidmc { border-left-color: var(--bidmc-red); }
-        .va { border-left-color: var(--va-green); }
-        textarea { width: 100%; height: 90px; border: 1px solid #ccc; border-radius: 4px; padding: 8px; box-sizing: border-box; font-family: inherit; font-size: 0.9em; }
+        .bwh { border-left-color: var(--bwh-blue); } .mgh { border-left-color: var(--mgh-blue); } .bidmc { border-left-color: var(--bidmc-red); } .va { border-left-color: var(--va-green); }
+        textarea { width: 100%; height: 80px; border: 1px solid #ccc; border-radius: 4px; padding: 8px; box-sizing: border-box; font-family: inherit; }
         .nav-container { margin-top: 30px; display: flex; justify-content: space-between; }
-        .btn { padding: 12px 30px; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn { padding: 12px 30px; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; }
         .btn-next { background: var(--bwh-blue); color: white; }
         .btn-prev { background: #6c757d; color: white; }
         .btn-submit { background: #28a745; color: white; }
-        .description-text { font-style: italic; color: #555; background: #f9f9f9; padding: 15px; border-radius: 6px; border-left: 4px solid #ddd; margin-bottom: 20px; }
-        #loadingOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 1000; text-align: center; padding-top: 200px; font-size: 1.5em; font-weight: bold; color: var(--bwh-blue); }
+        #loadingOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 1000; text-align: center; padding-top: 200px; font-size: 1.5em; color: var(--bwh-blue); }
     </style>
 </head>
 <body>
 
-    <div id="loadingOverlay">Submitting Anonymously... Please wait.</div>
+<div id="loadingOverlay">Submitting...</div>
 
-    <h1>PCCM Fellowship Evaluation Survey</h1>
+<h1>PCCM Fellowship Evaluation Survey</h1>
 
-    <div id="section1" class="section-card active-section">
-        <h2>(1) Clinical Rotation Feedback</h2>
-        <div class="hospital-block bwh">
-            <strong>Did you do any rotations at BWH?</strong> &nbsp;
-            <input type="radio" name="bwh_radio" value="yes" onclick="toggleHospital('bwh', true)"> Yes
-            <input type="radio" name="bwh_radio" value="no" onclick="toggleHospital('bwh', false)"> No
-            <div id="bwh_content" style="display:none;" class="table-wrapper"><table id="bwh_table"></table></div>
-        </div>
-        <div class="hospital-block mgh">
-            <strong>Did you do any rotations at MGH?</strong> &nbsp;
-            <input type="radio" name="mgh_radio" value="yes" onclick="toggleHospital('mgh', true)"> Yes
-            <input type="radio" name="mgh_radio" value="no" onclick="toggleHospital('mgh', false)"> No
-            <div id="mgh_content" style="display:none;" class="table-wrapper"><table id="mgh_table"></table></div>
-        </div>
-        <div class="hospital-block bidmc">
-            <strong>Did you do any rotations at BIDMC?</strong> &nbsp;
-            <input type="radio" name="bidmc_radio" value="yes" onclick="toggleHospital('bidmc', true)"> Yes
-            <input type="radio" name="bidmc_radio" value="no" onclick="toggleHospital('bidmc', false)"> No
-            <div id="bidmc_content" style="display:none;" class="table-wrapper"><table id="bidmc_table"></table></div>
-        </div>
-        <div class="hospital-block va">
-            <strong>Did you do any rotations at the VA?</strong> &nbsp;
-            <input type="radio" name="va_radio" value="yes" onclick="toggleHospital('va', true)"> Yes
-            <input type="radio" name="va_radio" value="no" onclick="toggleHospital('va', false)"> No
-            <div id="va_content" style="display:none;" class="table-wrapper"><table id="va_table"></table></div>
-        </div>
-        <div class="nav-container"><div></div><button class="btn btn-next" onclick="showSection(2)">Continue to Section 2 →</button></div>
-    </div>
+<div id="section1" class="section-card active-section">
+    <h2>(1) Clinical Rotation Feedback</h2>
+    <p>Please select "Yes" for the sites where you completed rotations to provide feedback.</p>
 
-    <div id="section2" class="section-card">
-        <h2>(2) Pulmonary Training</h2>
-        <h3>1. Rate the overall quality of training in:</h3>
-        <table>
-            <thead><tr><th class="col-name">Setting</th><th>Poor</th><th>Fair</th><th>Very Good</th><th>Exceptional</th></tr></thead>
-            <tbody>
-                <tr><td class="col-name">Inpatient Pulmonary Medicine</td><td class="center-cell"><input type="radio" name="q2_1_1" value="Poor"></td><td class="center-cell"><input type="radio" name="q2_1_1" value="Fair"></td><td class="center-cell"><input type="radio" name="q2_1_1" value="Very Good"></td><td class="center-cell"><input type="radio" name="q2_1_1" value="Exceptional"></td></tr>
-                <tr><td class="col-name">Outpatient Pulmonary Medicine</td><td class="center-cell"><input type="radio" name="q2_1_2" value="Poor"></td><td class="center-cell"><input type="radio" name="q2_1_2" value="Fair"></td><td class="center-cell"><input type="radio" name="q2_1_2" value="Very Good"></td><td class="center-cell"><input type="radio" name="q2_1_2" value="Exceptional"></td></tr>
-            </tbody>
-        </table>
-        <h3>2. Satisfaction with PULMONARY training:</h3>
-        <table>
-            <thead><tr><th class="col-name">Category</th><th>Very Dissatisfied</th><th>Somewhat Dissatisfied</th><th>Neutral</th><th>Somewhat Satisfied</th><th>Very Satisfied</th></tr></thead>
-            <tbody id="pulm_sat_body"></tbody>
-        </table>
-        <h3>3. Suggestions for improvement:</h3>
-        <textarea id="suggestions_pulm"></textarea>
-        <div class="nav-container"><button class="btn btn-prev" onclick="showSection(1)">← Back</button><button class="btn btn-next" onclick="showSection(3)">Continue →</button></div>
-    </div>
-
-    <div id="section3" class="section-card">
-        <h2>(3) Critical Care Training</h2>
-        <h3>1. Rate overall quality of training in:</h3>
-        <table>
-            <thead><tr><th class="col-name">Setting</th><th>Poor</th><th>Fair</th><th>Good</th><th>Exceptional</th></tr></thead>
-            <tbody>
-                <tr><td class="col-name">Medical ICU</td><td class="center-cell"><input type="radio" name="q3_1_1" value="Poor"></td><td class="center-cell"><input type="radio" name="q3_1_1" value="Fair"></td><td class="center-cell"><input type="radio" name="q3_1_1" value="Good"></td><td class="center-cell"><input type="radio" name="q3_1_1" value="Exceptional"></td></tr>
-                <tr><td class="col-name">Non-medical ICU</td><td class="center-cell"><input type="radio" name="q3_1_2" value="Poor"></td><td class="center-cell"><input type="radio" name="q3_1_2" value="Fair"></td><td class="center-cell"><input type="radio" name="q3_1_2" value="Good"></td><td class="center-cell"><input type="radio" name="q3_1_2" value="Exceptional"></td></tr>
-            </tbody>
-        </table>
-        <h3>2. Satisfaction with CRITICAL CARE training:</h3>
-        <table>
-            <thead><tr><th class="col-name">Category</th><th>Very Dissatisfied</th><th>Somewhat Dissatisfied</th><th>Neutral</th><th>Somewhat Satisfied</th><th>Very Satisfied</th></tr></thead>
-            <tbody id="cc_sat_body"></tbody>
-        </table>
-        <h3>3. Suggestions for improvement:</h3>
-        <textarea id="suggestions_cc"></textarea>
-        <div class="nav-container"><button class="btn btn-prev" onclick="showSection(2)">← Back</button><button class="btn btn-next" onclick="showSection(4)">Continue →</button></div>
-    </div>
-
-    <div id="section4" class="section-card">
-        <h2>(4) Preparation for Future Practice</h2>
-        <h3>1. Have you already graduated from fellowship?</h3>
-        <input type="radio" name="grad_status" value="Yes"> Yes &nbsp;
-        <input type="radio" name="grad_status" value="No"> No
-        <h3>2. To what extent do you feel fellowship prepared you for:</h3>
-        <table>
-            <thead><tr><th class="col-name">Competency</th><th>Very Unprepared</th><th>Somewhat Unprepared</th><th>Neutral</th><th>Somewhat Prepared</th><th>Very Prepared</th></tr></thead>
-            <tbody id="prep_sat_body"></tbody>
-        </table>
-        <div class="nav-container"><button class="btn btn-prev" onclick="showSection(3)">← Back</button><button class="btn btn-next" onclick="showSection(5)">Continue →</button></div>
-    </div>
-
-    <div id="section5" class="section-card">
-        <h2>(5) The Future of the Fellowship</h2>
-        <div class="description-text">We are exploring ideas for the future combined fellowship and would love to hear your thoughts on the following.</div>
-        
-        <h3>1. Potential Organizational Strategies:</h3>
-        <table id="future_strat_table">
-            <thead><tr><th class="col-name">Idea</th><th>Possible Positives</th><th>Possible Negatives</th><th>Other Comments</th></tr></thead>
-            <tbody>
-                <tr><td class="col-name"><strong>Clinical home for fellows:</strong> the idea is to mitigate potential for fellows to feel lost in a very big fellowship. This would be a site where a fellow has continuity clinic, potentially does more rotations, and also has an assigned mentor within educational leadership team.</td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td></tr>
-                <tr><td class="col-name"><strong>Pathways for fellows:</strong> the idea is to help personalize fellowship experience based on interests and career goals, useful when the fellowship is very large. Our aim would be to minimize excluding any fellow from specific experiences but rather to use the system to ensure pooled resources and organized approach for specific interests like research methodologic training or targeted clinical exposure).</td><td><textarea></textarea></td><td><textarea></textarea></td><td><textarea></textarea></td></tr>
-            </tbody>
-        </table>
-
-        <h3>2. Leadership Structure:</h3>
-        <p><em>As we explore integrating the fellowship, this will inevitably lead to changes in the fellowship's leadership structure.</em></p>
-        <table id="future_lead_table">
-            <thead><tr><th class="col-name">Leadership Aspect</th><th>thoughts on value of this aspect of fellowship leadership team</th><th>any other comments</th></tr></thead>
-            <tbody>
-                <tr><td class="col-name">Having more than one leader to reach out to for any issue</td><td><textarea></textarea></td><td><textarea></textarea></td></tr>
-                <tr><td class="col-name">Having a leader who works in the same site as you</td><td><textarea></textarea></td><td><textarea></textarea></td></tr>
-                <tr><td class="col-name">Having a leader who you work with clinically</td><td><textarea></textarea></td><td><textarea></textarea></td></tr>
-            </tbody>
-        </table>
-
-        <div class="nav-container">
-            <button class="btn btn-prev" onclick="showSection(4)">← Back</button>
-            <button class="btn btn-submit" onclick="submitFinalSurvey()">Submit Final Survey</button>
+    <div class="hospital-block bwh">
+        <strong>Did you do any rotations at BWH?</strong> &nbsp;
+        <input type="radio" name="bwh_radio" onclick="toggleHospital('bwh', true)"> Yes
+        <input type="radio" name="bwh_radio" onclick="toggleHospital('bwh', false)"> No
+        <div id="bwh_content" style="display:none;" class="table-wrapper">
+            <table id="bwh_table"></table>
         </div>
     </div>
+
+    <div class="hospital-block mgh">
+        <strong>Did you do any rotations at MGH?</strong> &nbsp;
+        <input type="radio" name="mgh_radio" onclick="toggleHospital('mgh', true)"> Yes
+        <input type="radio" name="mgh_radio" onclick="toggleHospital('mgh', false)"> No
+        <div id="mgh_content" style="display:none;" class="table-wrapper">
+            <table id="mgh_table"></table>
+        </div>
+    </div>
+
+    <div class="hospital-block bidmc">
+        <strong>Did you do any rotations at BIDMC?</strong> &nbsp;
+        <input type="radio" name="bidmc_radio" onclick="toggleHospital('bidmc', true)"> Yes
+        <input type="radio" name="bidmc_radio" onclick="toggleHospital('bidmc', false)"> No
+        <div id="bidmc_content" style="display:none;" class="table-wrapper">
+            <table id="bidmc_table"></table>
+        </div>
+    </div>
+
+    <div class="hospital-block va">
+        <strong>Did you do any rotations at the VA?</strong> &nbsp;
+        <input type="radio" name="va_radio" onclick="toggleHospital('va', true)"> Yes
+        <input type="radio" name="va_radio" onclick="toggleHospital('va', false)"> No
+        <div id="va_content" style="display:none;" class="table-wrapper">
+            <table id="va_table"></table>
+        </div>
+    </div>
+
+    <div class="nav-container"><div></div><button class="btn btn-next" onclick="showSection(2)">Continue to Section 2 →</button></div>
+</div>
+
+<div id="section2" class="section-card">
+    <h2>(2) Pulmonary Training</h2>
+    <div id="pulm_content"></div>
+    <div class="nav-container"><button class="btn btn-prev" onclick="showSection(1)">← Back</button><button class="btn btn-next" onclick="showSection(3)">Continue →</button></div>
+</div>
+
+<div id="section3" class="section-card">
+    <h2>(3) Critical Care Training</h2>
+    <div id="cc_content"></div>
+    <div class="nav-container"><button class="btn btn-prev" onclick="showSection(2)">← Back</button><button class="btn btn-next" onclick="showSection(4)">Continue →</button></div>
+</div>
+
+<div id="section4" class="section-card">
+    <h2>(4) Preparation for Future Practice</h2>
+    <h3>1. Have you already graduated from fellowship?</h3>
+    <input type="radio" name="grad_status" value="Yes"> Yes &nbsp; <input type="radio" name="grad_status" value="No"> No
+    <div id="prep_content"></div>
+    <div class="nav-container"><button class="btn btn-prev" onclick="showSection(3)">← Back</button><button class="btn btn-next" onclick="showSection(5)">Continue →</button></div>
+</div>
+
+<div id="section5" class="section-card">
+    <h2>(5) The Future of the Fellowship</h2>
+    <p>We are exploring ideas for the future combined fellowship and would love to hear your thoughts on the following.</p>
+    <div id="future_content"></div>
+    <div class="nav-container"><button class="btn btn-prev" onclick="showSection(4)">← Back</button><button class="btn btn-submit" onclick="submitFinalSurvey()">Submit Final Survey</button></div>
+</div>
 
 <script>
     const rotationData = {
@@ -167,75 +116,70 @@
         va: ["VA PACC", "VA MICU"]
     };
 
-    function generateSection1() {
-    for (const [site, list] of Object.entries(rotationData)) {
-        const table = document.getElementById(`${site}_table`);
-        let html = `<thead><tr><th class="col-name">Rotation</th><th>positives about the rotation</th><th>negatives about the rotation</th><th>unique contributions (if any) to training experience</th><th style="width:70px">I did not do this rotation</th></tr></thead><tbody>`;
-        list.forEach((name, i) => {
-            const rowId = `${site}-row-${i}`;
-            // These 'data-name' attributes become the column headers in your Google Sheet
-            html += `<tr id="${rowId}">
-                <td class="col-name">${name}</td>
-                <td><textarea data-name="${name}_Positives"></textarea></td>
-                <td><textarea data-name="${name}_Negatives"></textarea></td>
-                <td><textarea data-name="${name}_UniqueContrib"></textarea></td>
-                <td class="center-cell"><input type="checkbox" data-name="${name}_SKIPPED" onclick="toggleRow('${rowId}', this.checked)"></td>
-            </tr>`;
+    function initSection1() {
+        for (const site in rotationData) {
+            const table = document.getElementById(site + '_table');
+            if (!table) continue;
+            let html = `<thead><tr><th style="width:200px">Rotation</th><th>Positives</th><th>Negatives</th><th>Unique Contributions</th><th style="width:80px">Didn't do</th></tr></thead><tbody>`;
+            rotationData[site].forEach((name, i) => {
+                const rowId = `${site}-row-${i}`;
+                html += `<tr id="${rowId}"><td>${name}</td><td><textarea data-name="${name}_Pos"></textarea></td><td><textarea data-name="${name}_Neg"></textarea></td><td><textarea data-name="${name}_Unique"></textarea></td><td class="center-cell"><input type="checkbox" data-name="${name}_Skip" onclick="document.getElementById('${rowId}').classList.toggle('row-disabled', this.checked)"></td></tr>`;
+            });
+            table.innerHTML = html + `</tbody>`;
+        }
+    }
+
+    function toggleHospital(site, show) { document.getElementById(site + '_content').style.display = show ? 'block' : 'none'; }
+    function showSection(n) { document.querySelectorAll('.section-card').forEach(s => s.classList.remove('active-section')); document.getElementById('section'+n).classList.add('active-section'); window.scrollTo(0,0); }
+
+    // Dynamic Matrix Builder
+    function buildMatrix(containerId, title, items, namePrefix, isPrep = false) {
+        const labels = isPrep ? ["Very Unprepared", "Somewhat Unprepared", "Neutral", "Somewhat Prepared", "Very Prepared"] : ["Very Dissatisfied", "Somewhat Dissatisfied", "Neutral", "Somewhat Satisfied", "Very Satisfied"];
+        let html = `<h3>${title}</h3><table><thead><tr><th>Category</th>`;
+        labels.forEach(l => html += `<th>${l}</th>`);
+        html += `</tr></thead><tbody>`;
+        items.forEach((item, i) => {
+            html += `<tr><td>${item}</td>`;
+            for (let j=0; j<5; j++) { html += `<td class="center-cell"><input type="radio" name="${namePrefix}_${i}" value="${labels[j]}"></td>`; }
+            html += `</tr>`;
         });
-        table.innerHTML = html + `</tbody>`;
-    }
-}
-
-    function toggleRow(rowId, isChecked) { document.getElementById(rowId).classList.toggle('row-disabled', isChecked); }
-    function toggleHospital(site, show) { document.getElementById(`${site}_content`).style.display = show ? 'block' : 'none'; }
-    function showSection(num) {
-        document.querySelectorAll('.section-card').forEach(s => s.classList.remove('active-section'));
-        document.getElementById('section' + num).classList.add('active-section');
-        window.scrollTo(0,0);
+        document.getElementById(containerId).innerHTML += html + `</tbody></table>`;
     }
 
-    function fillMatrix(elementId, items, namePrefix) {
-        const body = document.getElementById(elementId);
-        const options = ["Very Dissatisfied", "Somewhat Dissatisfied", "Neutral", "Somewhat Satisfied", "Very Satisfied"];
-        const prepOptions = ["Very Unprepared", "Somewhat Unprepared", "Neutral", "Somewhat Prepared", "Very Prepared"];
-        const useOptions = namePrefix === 'prepsat' ? prepOptions : options;
-
-        items.forEach((text, i) => {
-            let rowHtml = `<tr><td class="col-name">${text}</td>`;
-            for (let j = 0; j < 5; j++) { rowHtml += `<td class="center-cell"><input type="radio" name="${namePrefix}_${i}" value="${useOptions[j]}"></td>`; }
-            body.innerHTML += rowHtml + `</tr>`;
-        });
-    }
+    // Run Initializers
+    initSection1();
+    buildMatrix('pulm_content', 'Quality of Training', ["Inpatient Pulmonary Medicine", "Outpatient Pulmonary Medicine"], 'pulm_qual');
+    buildMatrix('pulm_content', 'Satisfaction', ["Breadth of exposure", "Graded autonomy", "Didactics", "Procedures", "Clinical teaching", "Simulation"], 'pulm_sat');
+    buildMatrix('cc_content', 'Quality of Training', ["Medical ICU", "Non-medical ICU"], 'cc_qual');
+    buildMatrix('cc_content', 'Satisfaction', ["Breadth of exposure", "Graded autonomy", "Didactics", "Procedures", "Clinical teaching", "Simulation", "Intubation"], 'cc_sat');
+    buildMatrix('prep_content', 'Preparation Levels', ["Clinical Pulmonary", "Clinical Critical Care", "Patient Communication", "Physician Communication", "Team Communication", "Quality Improvement", "Research", "Leadership"], 'prepsat', true);
+    
+    // Future Section Verbatim
+    document.getElementById('future_content').innerHTML = `
+        <h3>1. Organizational Strategies</h3>
+        <table><thead><tr><th>Idea</th><th>Positives</th><th>Negatives</th><th>Comments</th></tr></thead><tbody>
+        <tr><td><strong>Clinical home for fellows:</strong> mitigate feeling lost. Site for clinic, rotations, assigned mentor.</td><td><textarea data-name="Home_Pos"></textarea></td><td><textarea data-name="Home_Neg"></textarea></td><td><textarea data-name="Home_Comm"></textarea></td></tr>
+        <tr><td><strong>Pathways for fellows:</strong> personalize based on career goals. Pooled resources for targeted interests.</td><td><textarea data-name="Path_Pos"></textarea></td><td><textarea data-name="Path_Neg"></textarea></td><td><textarea data-name="Path_Comm"></textarea></td></tr>
+        </tbody></table>
+        <h3>2. Leadership</h3>
+        <table><thead><tr><th>Leadership Aspect</th><th>Thoughts on Value</th><th>Comments</th></tr></thead><tbody>
+        <tr><td>Having more than one leader to reach out to</td><td><textarea data-name="MultiL_Val"></textarea></td><td><textarea data-name="MultiL_Comm"></textarea></td></tr>
+        <tr><td>Leader works in same site as you</td><td><textarea data-name="SiteL_Val"></textarea></td><td><textarea data-name="SiteL_Comm"></textarea></td></tr>
+        <tr><td>Leader who you work with clinically</td><td><textarea data-name="ClinL_Val"></textarea></td><td><textarea data-name="ClinL_Comm"></textarea></td></tr>
+        </tbody></table>`;
 
     async function submitFinalSurvey() {
-    // 1. Your URL is correct here
-    const url = 'https://script.google.com/macros/s/AKfycbw5BTfbMzlCkLtoeQOqktgwtNPALPc0tTq0SZME7LpP1_BoywXPIB9WfqaLk6gMpWqo/exec'; 
-
-    // 2. WE REMOVED THE "IF" STATEMENT THAT WAS CAUSING THE POP-UP
-
-    document.getElementById('loadingOverlay').style.display = 'block';
-    const payload = {};
-
-    // Collect all data
-    document.querySelectorAll('textarea').forEach(t => { if(t.value) payload[t.getAttribute('data-name') || t.placeholder || t.id || 'unnamed'] = t.value; });
-    document.querySelectorAll('input[type="radio"]:checked').forEach(r => payload[r.name] = r.value);
-    document.querySelectorAll('input[type="checkbox"]:checked').forEach(c => payload[c.getAttribute('data-name')] = "Skipped");
-
-    try {
-        // This is the part that actually talks to your Google Sheet
-        await fetch(url, { method: 'POST', body: JSON.stringify(payload) });
-        alert("Survey successfully submitted anonymously. Thank you!");
-        location.reload();
-    } catch (e) {
-        alert("Error submitting. Please ensure your Google Script is deployed correctly.");
-        document.getElementById('loadingOverlay').style.display = 'none';
+        const url = 'https://script.google.com/macros/s/AKfycbw5BTfbMzlCkLtoeQOqktgwtNPALPc0tTq0SZME7LpP1_BoywXPIB9WfqaLk6gMpWqo/exec';
+        document.getElementById('loadingOverlay').style.display = 'block';
+        const payload = {};
+        document.querySelectorAll('textarea').forEach(t => { if(t.value) payload[t.getAttribute('data-name')] = t.value; });
+        document.querySelectorAll('input[type="radio"]:checked').forEach(r => payload[r.name] = r.value);
+        document.querySelectorAll('input[type="checkbox"]:checked').forEach(c => payload[c.getAttribute('data-name')] = "Skipped");
+        try {
+            await fetch(url, { method: 'POST', body: JSON.stringify(payload) });
+            alert("Submitted successfully!"); location.reload();
+        } catch (e) { alert("Error submitting."); document.getElementById('loadingOverlay').style.display = 'none'; }
     }
-}
-
-    fillMatrix('pulm_sat_body', ["Breadth of exposure to pulmonary disease", "Graded autonomy of clinical management (i.e. increasing independence making decisions)", "Didactics (fellow-specific teaching sessions)", "Procedures (thoras, chest tubes, and bronchs)", "Clinical teaching by attendings while on service", "Simulation-based teaching"], 'pulmsat');
-    fillMatrix('cc_sat_body', ["breadth of exposure to critical care medicine disease processes", "graded autonomy of clinical management (increasing independence in decision-making)", "didactics (fellow-specific teaching sessions)", "procedures (a-lines and CVLs)", "clinical teaching by attendings while on service", "simulation-based teaching", "intubation"], 'ccsat');
-    fillMatrix('prep_sat_body', ["clinical practice in pulmonary medicine", "clinical practice in critical care medicine", "communication with patients", "communication with other physicians", "communication with other professions", "quality improvement practices", "research skills", "leadership skills"], 'prepsat');
-    generateSection1();
 </script>
 </body>
 </html>
