@@ -5,57 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PCCM Fellowship Evaluation</title>
     <style>
-    :root {
-        --bwh-blue: #003e7e;
-        --mgh-blue: #007398;
-        --bidmc-red: #c41230;
-        --va-green: #2e4d3b;
-        --gray-bg: #e9ecef;
-    }
-    body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 1350px; margin: 0 auto; padding: 20px; background-color: var(--gray-bg); }
-    
-    .section-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; display: none; }
-    .active-section { display: block; }
-    
-    h1 { color: var(--bwh-blue); text-align: center; font-size: 1.5rem; margin-bottom: 20px; text-transform: uppercase; }
-    h2 { border-bottom: 2px solid #ddd; padding-bottom: 10px; color: var(--bwh-blue); font-size: 1.2rem; }
-
-    /* Standard Table Styles */
-    .table-wrapper { max-height: 600px; overflow-y: auto; border: 1px solid #dee2e6; margin-top: 15px; }
-    table { width: 100%; border-collapse: collapse; background: white; table-layout: fixed; }
-    thead th { background: #444; color: white; padding: 12px; font-size: 0.85em; position: sticky; top: 0; z-index: 10; }
-    td { border: 1px solid #dee2e6; padding: 8px; vertical-align: middle; }
-    .col-name { width: 300px; font-weight: bold; background: #fdfdfd; }
-    textarea { width: 100%; height: 80px; border: 1px solid #ccc; border-radius: 4px; padding: 8px; box-sizing: border-box; font-size: 16px; /* Prevents iOS auto-zoom */ }
-
-    /* MOBILE OPTIMIZATION (THE FIX) */
-    @media screen and (max-width: 768px) {
-        /* Force tables to not be tables anymore */
-        table, thead, tbody, th, td, tr { 
-            display: block; 
-            width: 100% !important; 
+        :root {
+            --bwh-blue: #003e7e;
+            --mgh-blue: #007398;
+            --bidmc-red: #c41230;
+            --va-green: #2e4d3b;
+            --gray-bg: #e9ecef;
         }
-        
-        /* Hide the table headers on mobile */
-        thead tr { position: absolute; top: -9999px; left: -9999px; }
-        
-        tr { border: 2px solid #ccc; margin-bottom: 20px; padding: 10px; background: #fff; border-radius: 8px; }
-        
-        td { border: none; position: relative; padding-left: 0; padding-top: 10px; }
-
-        /* Add labels back in before each textarea/input */
-        td:nth-of-type(2):before { content: "Positives:"; font-weight: bold; display: block; color: var(--bwh-blue); }
-        td:nth-of-type(3):before { content: "Negatives:"; font-weight: bold; display: block; color: var(--bwh-blue); }
-        td:nth-of-type(4):before { content: "Unique Contribution:"; font-weight: bold; display: block; color: var(--bwh-blue); }
-        
-        /* Expand textareas for easy tapping */
-        textarea { height: 100px; margin-top: 5px; }
-
-        .col-name { background: #eee; font-size: 1.1rem; padding: 10px; border-radius: 4px; }
-        .nav-container { flex-direction: column; gap: 10px; }
-        .btn { width: 100%; }
-    }
-</style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 1350px; margin: 0 auto; padding: 40px 20px; background-color: var(--gray-bg); }
+        .section-card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 30px; display: none; }
+        .active-section { display: block; }
+        h1 { color: var(--bwh-blue); text-align: center; margin-bottom: 20px; text-transform: uppercase; }
+        h2 { border-bottom: 2px solid #ddd; padding-bottom: 10px; color: var(--bwh-blue); }
+        h3 { margin-top: 25px; font-size: 1.1em; color: #444; }
+        .table-wrapper { max-height: 600px; overflow-y: auto; border: 1px solid #dee2e6; margin-top: 15px; }
+        table { width: 100%; border-collapse: collapse; background: white; table-layout: fixed; margin-bottom: 20px;}
+        thead th { background: #444; color: white; padding: 15px 10px; font-size: 0.85em; text-align: center; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 2px rgba(0,0,0,0.1); }
+        td { border: 1px solid #dee2e6; padding: 10px; vertical-align: middle; }
+        .col-name { width: 350px; font-weight: bold; text-align: left; background: #fdfdfd; font-size: 0.9em; }
+        .center-cell { text-align: center; }
+        .row-disabled { background-color: #f2f2f2 !important; color: #aaa; }
+        .row-disabled textarea { background-color: #e9ecef; border-color: #ddd; pointer-events: none; opacity: 0.5; }
+        .hospital-block { margin-bottom: 30px; padding: 20px; border-radius: 8px; border-left: 8px solid #ccc; background: #fff; }
+        .bwh { border-left-color: var(--bwh-blue); }
+        .mgh { border-left-color: var(--mgh-blue); }
+        .bidmc { border-left-color: var(--bidmc-red); }
+        .va { border-left-color: var(--va-green); }
+        textarea { width: 100%; height: 90px; border: 1px solid #ccc; border-radius: 4px; padding: 8px; box-sizing: border-box; font-family: inherit; font-size: 0.9em; }
+        .nav-container { margin-top: 30px; display: flex; justify-content: space-between; }
+        .btn { padding: 12px 30px; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-next { background: var(--bwh-blue); color: white; }
+        .btn-prev { background: #6c757d; color: white; }
+        .btn-submit { background: #28a745; color: white; }
+        .description-text { font-style: italic; color: #555; background: #f9f9f9; padding: 15px; border-radius: 6px; border-left: 4px solid #ddd; margin-bottom: 20px; }
+        #loadingOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 1000; text-align: center; padding-top: 200px; font-size: 1.5em; font-weight: bold; color: var(--bwh-blue); }
+    </style>
 </head>
 <body>
 
