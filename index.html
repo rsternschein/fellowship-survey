@@ -71,6 +71,7 @@
 <div id="section2" class="section-card">
     <h2>(2) Pulmonary Training</h2>
     <div id="pulm_content"></div>
+    <div id="pulm_time_content"></div>
     <h3>Suggestions for improvement (Pulmonary):</h3>
     <textarea data-name="Suggestions_Pulm" placeholder="Your feedback..."></textarea>
     <div class="nav-container"><button class="btn btn-prev" onclick="showSection(1)">← Back</button><button class="btn btn-next" onclick="showSection(3)">Continue →</button></div>
@@ -79,6 +80,7 @@
 <div id="section3" class="section-card">
     <h2>(3) Critical Care Training</h2>
     <div id="cc_content"></div>
+    <div id="cc_time_content"></div>
     <h3>Suggestions for improvement (Critical Care):</h3>
     <textarea data-name="Suggestions_CC" placeholder="Your feedback..."></textarea>
     <div class="nav-container"><button class="btn btn-prev" onclick="showSection(2)">← Back</button><button class="btn btn-next" onclick="showSection(4)">Continue →</button></div>
@@ -143,14 +145,26 @@
 
     // Initializers
     initSection1();
+    
+    // Section 2 matrices
     buildMatrix('pulm_content', 'Satisfaction with PULMONARY training:', 
         ["Breadth of exposure to pulmonary disease", "Graded autonomy of clinical management (i.e. increasing independence making decisions)", "Didactics (fellow-specific teaching sessions)", "Procedures (thoras, chest tubes, and bronchs)", "Clinical teaching by attendings while on service", "Simulation-based teaching"], 
         'pulm_sat', ["Very Dissatisfied", "Somewhat Dissatisfied", "Neutral", "Somewhat Satisfied", "Very Satisfied"]);
 
+    buildMatrix('pulm_time_content', 'Please let us know if the amount of time on different rotations providing you with these PULMONARY experiences was adequate or not:',
+        ["general pulmonary consults", "lung transplant", "PVD", "CF", "outpatient general pulmonary", "outpatient pulmonary subspecialties", "physiology", "LTAC experience"],
+        'pulm_time', ["not enough time dedicated to this", "right amount of time dedicated to this", "too much time dedicated to this"]);
+
+    // Section 3 matrices
     buildMatrix('cc_content', 'Satisfaction with CRITICAL CARE training:', 
         ["breadth of exposure to critical care medicine disease processes", "graded autonomy of clinical management (increasing independence in decision-making)", "didactics (fellow-specific teaching sessions)", "procedures (a-lines and CVLs)", "clinical teaching by attendings while on service", "simulation-based teaching", "intubation"], 
         'cc_sat', ["Very Dissatisfied", "Somewhat Dissatisfied", "Neutral", "Somewhat Satisfied", "Very Satisfied"]);
 
+    buildMatrix('cc_time_content', 'Please let us know if the amount of time on different rotations providing you with these CRITICAL CARE experiences was adequate or not:',
+        ["medical ICU", "general surgical ICU", "thoracic surgical ICU", "neuro ICU", "CCU", "cardiothoracic surgery ICU", "VV-ECMO", "VA-ECMO"],
+        'cc_time', ["not enough time dedicated to this", "right amount of time dedicated to this", "too much time dedicated to this"]);
+
+    // Section 4 matrices
     buildMatrix('prep_content', '2. To what extent do you feel fellowship prepared you for your future practice in terms of:', 
         ["clinical practice in pulmonary medicine", "clinical practice in critical care medicine", "communication with patients", "communication with other physicians", "communication with other professions", "quality improvement practices", "research skills", "leadership skills"], 
         'prepsat', ["Very Unprepared", "Somewhat Unprepared", "Neutral", "Somewhat Prepared", "Very Prepared"]);
