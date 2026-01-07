@@ -30,6 +30,7 @@
         .btn-prev { background: #6c757d; color: white; }
         .btn-submit { background: #28a745; color: white; }
         #loadingOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 1000; text-align: center; padding-top: 200px; font-size: 1.5em; color: var(--bwh-blue); }
+        .hidden-content { display: none; margin-top: 20px; border-top: 1px dashed #ccc; padding-top: 20px; }
     </style>
 </head>
 <body>
@@ -40,36 +41,30 @@
 
 <div id="section1" class="section-card active-section">
     <h2>(1) Clinical Rotation Feedback</h2>
-    <p>Please select "Yes" for the sites where you completed rotations to provide feedback.</p>
-
     <div class="hospital-block bwh">
         <strong>Did you do any rotations at BWH?</strong> &nbsp;
         <input type="radio" name="bwh_radio" onclick="toggleHospital('bwh', true)"> Yes
         <input type="radio" name="bwh_radio" onclick="toggleHospital('bwh', false)"> No
         <div id="bwh_content" style="display:none;" class="table-wrapper"><table id="bwh_table"></table></div>
     </div>
-
     <div class="hospital-block mgh">
         <strong>Did you do any rotations at MGH?</strong> &nbsp;
         <input type="radio" name="mgh_radio" onclick="toggleHospital('mgh', true)"> Yes
         <input type="radio" name="mgh_radio" onclick="toggleHospital('mgh', false)"> No
         <div id="mgh_content" style="display:none;" class="table-wrapper"><table id="mgh_table"></table></div>
     </div>
-
     <div class="hospital-block bidmc">
         <strong>Did you do any rotations at BIDMC?</strong> &nbsp;
         <input type="radio" name="bidmc_radio" onclick="toggleHospital('bidmc', true)"> Yes
         <input type="radio" name="bidmc_radio" onclick="toggleHospital('bidmc', false)"> No
         <div id="bidmc_content" style="display:none;" class="table-wrapper"><table id="bidmc_table"></table></div>
     </div>
-
     <div class="hospital-block va">
         <strong>Did you do any rotations at the VA?</strong> &nbsp;
         <input type="radio" name="va_radio" onclick="toggleHospital('va', true)"> Yes
         <input type="radio" name="va_radio" onclick="toggleHospital('va', false)"> No
         <div id="va_content" style="display:none;" class="table-wrapper"><table id="va_table"></table></div>
     </div>
-
     <div class="nav-container"><div></div><button class="btn btn-next" onclick="showSection(2)">Continue to Section 2 →</button></div>
 </div>
 
@@ -92,15 +87,20 @@
 <div id="section4" class="section-card">
     <h2>(4) Preparation for Future Practice</h2>
     <h3>1. Have you already graduated from fellowship?</h3>
-    <input type="radio" name="grad_status" value="Yes"> Yes &nbsp; <input type="radio" name="grad_status" value="No"> No
-    <div id="prep_content"></div>
+    <input type="radio" name="grad_status" value="Yes" onclick="toggleGradSection(true)"> Yes &nbsp; 
+    <input type="radio" name="grad_status" value="No" onclick="toggleGradSection(false)"> No
+    
+    <div id="grad_section" class="hidden-content">
+        <div id="prep_content"></div>
+    </div>
+
     <div class="nav-container"><button class="btn btn-prev" onclick="showSection(3)">← Back</button><button class="btn btn-next" onclick="showSection(5)">Continue →</button></div>
 </div>
 
 <div id="section5" class="section-card">
     <h2>(5) The Future of the Fellowship</h2>
-    <p>We are exploring ideas for the future combined fellowship and would love to hear your thoughts on the following.</p>
-    <div id="future_content"></div>
+    <p>Please provide any additional thoughts you have about the future combined fellowship- this could be about the organization of the fellowship (e.g. pros/cons of having fellowship pathways) or about program leadership, specific rotations, or building community across sites.</p>
+    <textarea data-name="Future_Combined_Thoughts" style="height: 250px;" placeholder="Type your thoughts here..."></textarea>
     <div class="nav-container"><button class="btn btn-prev" onclick="showSection(4)">← Back</button><button class="btn btn-submit" onclick="submitFinalSurvey()">Submit Final Survey</button></div>
 </div>
 
@@ -126,6 +126,7 @@
     }
 
     function toggleHospital(site, show) { document.getElementById(site + '_content').style.display = show ? 'block' : 'none'; }
+    function toggleGradSection(show) { document.getElementById('grad_section').style.display = show ? 'block' : 'none'; }
     function showSection(n) { document.querySelectorAll('.section-card').forEach(s => s.classList.remove('active-section')); document.getElementById('section'+n).classList.add('active-section'); window.scrollTo(0,0); }
 
     function buildMatrix(containerId, title, items, namePrefix, labels) {
@@ -142,42 +143,17 @@
 
     // Initializers
     initSection1();
-    
-    // Verbatim Section 2
-    buildMatrix('pulm_content', '1. Rate the overall quality of training in:', 
-        ["Inpatient Pulmonary Medicine", "Outpatient Pulmonary Medicine"], 
-        'pulm_qual', ["Poor", "Fair", "Very Good", "Exceptional"]);
-    buildMatrix('pulm_content', '2. Satisfaction with PULMONARY training:', 
+    buildMatrix('pulm_content', 'Satisfaction with PULMONARY training:', 
         ["Breadth of exposure to pulmonary disease", "Graded autonomy of clinical management (i.e. increasing independence making decisions)", "Didactics (fellow-specific teaching sessions)", "Procedures (thoras, chest tubes, and bronchs)", "Clinical teaching by attendings while on service", "Simulation-based teaching"], 
         'pulm_sat', ["Very Dissatisfied", "Somewhat Dissatisfied", "Neutral", "Somewhat Satisfied", "Very Satisfied"]);
 
-    // Verbatim Section 3
-    buildMatrix('cc_content', '1. Rate the overall quality of training in:', 
-        ["Medical ICU", "Non-medical ICU"], 
-        'cc_qual', ["Poor", "Fair", "Good", "Exceptional"]);
-    buildMatrix('cc_content', '2. Satisfaction with CRITICAL CARE training:', 
+    buildMatrix('cc_content', 'Satisfaction with CRITICAL CARE training:', 
         ["breadth of exposure to critical care medicine disease processes", "graded autonomy of clinical management (increasing independence in decision-making)", "didactics (fellow-specific teaching sessions)", "procedures (a-lines and CVLs)", "clinical teaching by attendings while on service", "simulation-based teaching", "intubation"], 
         'cc_sat', ["Very Dissatisfied", "Somewhat Dissatisfied", "Neutral", "Somewhat Satisfied", "Very Satisfied"]);
 
-    // Section 4
     buildMatrix('prep_content', '2. To what extent do you feel fellowship prepared you for your future practice in terms of:', 
         ["clinical practice in pulmonary medicine", "clinical practice in critical care medicine", "communication with patients", "communication with other physicians", "communication with other professions", "quality improvement practices", "research skills", "leadership skills"], 
         'prepsat', ["Very Unprepared", "Somewhat Unprepared", "Neutral", "Somewhat Prepared", "Very Prepared"]);
-    
-    // Section 5
-    document.getElementById('future_content').innerHTML = `
-        <h3>1. Potential Organizational Strategies:</h3>
-        <table><thead><tr><th class="col-name">Idea</th><th>Possible Positives</th><th>Possible Negatives</th><th>Other Comments</th></tr></thead><tbody>
-        <tr><td class="col-name"><strong>Clinical home for fellows:</strong> the idea is to mitigate potential for fellows to feel lost in a very big fellowship. This would be a site where a fellow has continuity clinic, potentially does more rotations, and also has an assigned mentor within educational leadership team.</td><td><textarea data-name="Home_Pos"></textarea></td><td><textarea data-name="Home_Neg"></textarea></td><td><textarea data-name="Home_Comm"></textarea></td></tr>
-        <tr><td class="col-name"><strong>Pathways for fellows:</strong> the idea is to help personalize fellowship experience based on interests and career goals, useful when the fellowship is very large. Our aim would be to minimize excluding any fellow from specific experiences but rather to use the system to ensure pooled resources and organized approach for specific interests like research methodologic training or targeted clinical exposure).</td><td><textarea data-name="Path_Pos"></textarea></td><td><textarea data-name="Path_Neg"></textarea></td><td><textarea data-name="Path_Comm"></textarea></td></tr>
-        </tbody></table>
-        <h3>2. Leadership Structure:</h3>
-        <p><em>As we explore integrating the fellowship, this will inevitably lead to changes in the fellowship's leadership structure.</em></p>
-        <table><thead><tr><th class="col-name">Leadership Aspect</th><th>thoughts on value of this aspect of fellowship leadership team</th><th>any other comments</th></tr></thead><tbody>
-        <tr><td class="col-name">Having more than one leader to reach out to for any issue</td><td><textarea data-name="MultiL_Val"></textarea></td><td><textarea data-name="MultiL_Comm"></textarea></td></tr>
-        <tr><td class="col-name">Having a leader who works in the same site as you</td><td><textarea data-name="SiteL_Val"></textarea></td><td><textarea data-name="SiteL_Comm"></textarea></td></tr>
-        <tr><td class="col-name">Having a leader who you work with clinically</td><td><textarea data-name="ClinL_Val"></textarea></td><td><textarea data-name="ClinL_Comm"></textarea></td></tr>
-        </tbody></table>`;
 
     async function submitFinalSurvey() {
         const url = 'https://script.google.com/macros/s/AKfycbw5BTfbMzlCkLtoeQOqktgwtNPALPc0tTq0SZME7LpP1_BoywXPIB9WfqaLk6gMpWqo/exec';
