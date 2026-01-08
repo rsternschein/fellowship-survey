@@ -73,7 +73,17 @@
     <div id="pulm_content"></div>
     <h3>Suggestions for improvement (Pulmonary):</h3>
     <textarea data-name="Suggestions_Pulm" placeholder="Your feedback..."></textarea>
-    <div id="pulm_time_content"></div>
+    
+    <div style="margin-top:20px; padding: 15px; background: #f9f9f9; border-radius: 8px;">
+        <strong>Have you completed at least 1 year of PCCM fellowship?</strong> &nbsp;
+        <input type="radio" name="pccm_1yr" value="Yes" onclick="toggleConditional('pulm_time_section', true)"> Yes
+        <input type="radio" name="pccm_1yr" value="No" onclick="toggleConditional('pulm_time_section', false)"> No
+    </div>
+
+    <div id="pulm_time_section" class="hidden-content">
+        <div id="pulm_time_content"></div>
+    </div>
+
     <div class="nav-container"><button class="btn btn-prev" onclick="showSection(1)">← Back</button><button class="btn btn-next" onclick="showSection(3)">Continue →</button></div>
 </div>
 
@@ -82,15 +92,25 @@
     <div id="cc_content"></div>
     <h3>Suggestions for improvement (Critical Care):</h3>
     <textarea data-name="Suggestions_CC" placeholder="Your feedback..."></textarea>
-    <div id="cc_time_content"></div>
+
+    <div style="margin-top:20px; padding: 15px; background: #f9f9f9; border-radius: 8px;">
+        <strong>Have you completed at least 2 years of PCCM fellowship?</strong> &nbsp;
+        <input type="radio" name="pccm_2yr" value="Yes" onclick="toggleConditional('cc_time_section', true)"> Yes
+        <input type="radio" name="pccm_2yr" value="No" onclick="toggleConditional('cc_time_section', false)"> No
+    </div>
+
+    <div id="cc_time_section" class="hidden-content">
+        <div id="cc_time_content"></div>
+    </div>
+
     <div class="nav-container"><button class="btn btn-prev" onclick="showSection(2)">← Back</button><button class="btn btn-next" onclick="showSection(4)">Continue →</button></div>
 </div>
 
 <div id="section4" class="section-card">
     <h2>(4) Preparation for Future Practice</h2>
     <h3>1. Have you already graduated from fellowship?</h3>
-    <input type="radio" name="grad_status" value="Yes" onclick="toggleGradSection(true)"> Yes &nbsp; 
-    <input type="radio" name="grad_status" value="No" onclick="toggleGradSection(false)"> No
+    <input type="radio" name="grad_status" value="Yes" onclick="toggleConditional('grad_section', true)"> Yes &nbsp; 
+    <input type="radio" name="grad_status" value="No" onclick="toggleConditional('grad_section', false)"> No
     
     <div id="grad_section" class="hidden-content">
         <div id="prep_content"></div>
@@ -128,7 +148,7 @@
     }
 
     function toggleHospital(site, show) { document.getElementById(site + '_content').style.display = show ? 'block' : 'none'; }
-    function toggleGradSection(show) { document.getElementById('grad_section').style.display = show ? 'block' : 'none'; }
+    function toggleConditional(divId, show) { document.getElementById(divId).style.display = show ? 'block' : 'none'; }
     function showSection(n) { document.querySelectorAll('.section-card').forEach(s => s.classList.remove('active-section')); document.getElementById('section'+n).classList.add('active-section'); window.scrollTo(0,0); }
 
     function buildMatrix(containerId, title, items, namePrefix, labels) {
@@ -145,7 +165,6 @@
 
     initSection1();
     
-    // Section 2 matrices
     buildMatrix('pulm_content', 'Satisfaction with pulmonary training:', 
         ["Breadth of exposure to pulmonary disease", "Graded autonomy of clinical management (i.e. increasing independence making decisions)", "Didactics (fellow-specific teaching sessions)", "Procedures (thoras, chest tubes, and bronchs)", "Clinical teaching by attendings while on service", "Simulation-based teaching"], 
         'pulm_sat', ["Very Dissatisfied", "Somewhat Dissatisfied", "Neutral", "Somewhat Satisfied", "Very Satisfied"]);
@@ -154,7 +173,6 @@
         ["general pulmonary consults", "lung transplant", "PVD", "outpatient pulmonary subspecialties", "LTAC experience"],
         'pulm_time', ["not enough time dedicated to this", "right amount of time dedicated to this", "too much time dedicated to this"]);
 
-    // Section 3 matrices
     buildMatrix('cc_content', 'Satisfaction with critical care training:', 
         ["breadth of exposure to critical care medicine disease processes", "graded autonomy of clinical management (increasing independence in decision-making)", "didactics (fellow-specific teaching sessions)", "procedures (a-lines and CVLs)", "clinical teaching by attendings while on service", "simulation-based teaching", "intubation"], 
         'cc_sat', ["Very Dissatisfied", "Somewhat Dissatisfied", "Neutral", "Somewhat Satisfied", "Very Satisfied"]);
@@ -163,7 +181,6 @@
         ["medical ICU", "general surgical ICU", "thoracic surgical ICU", "neuro ICU", "CCU", "cardiothoracic surgery ICU", "ECMO"],
         'cc_time', ["not enough time dedicated to this", "right amount of time dedicated to this", "too much time dedicated to this"]);
 
-    // Section 4 matrices
     buildMatrix('prep_content', '2. To what extent do you feel fellowship prepared you for your future practice in terms of:', 
         ["clinical practice in pulmonary medicine", "clinical practice in critical care medicine", "communication with patients", "communication with other physicians", "communication with other professions", "quality improvement practices", "research skills", "leadership skills"], 
         'prepsat', ["Very Unprepared", "Somewhat Unprepared", "Neutral", "Somewhat Prepared", "Very Prepared"]);
