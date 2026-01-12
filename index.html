@@ -186,7 +186,7 @@
         'prepsat', ["Very Unprepared", "Somewhat Unprepared", "Neutral", "Somewhat Prepared", "Very Prepared"]);
 
     async function submitFinalSurvey() {
-        const url = 'https://script.google.com/macros/s/AKfycbw5BTfbMzlCkLtoeQOqktgwtNPALPc0tTq0SZME7LpP1_BoywXPIB9WfqaLk6gMpWqo/exec';
+        const url = 'https://script.google.com/macros/s/AKfycbwITAuQ1wVhAEfKWZLi1x-ZiNtLzxyCivgIatCOjW_JP2ZMLyneJeuP0zRQ3t0lLi6Z/exec';
         document.getElementById('loadingOverlay').style.display = 'block';
         const payload = {};
         document.querySelectorAll('textarea').forEach(t => { if(t.value) payload[t.getAttribute('data-name')] = t.value; });
